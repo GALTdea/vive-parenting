@@ -1,11 +1,81 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { spaceMathAcademy } from '../data/space-math-academy';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featured = spaceMathAcademy;
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="Vibe Parenting — Discover educational projects for families"
+	description="Curated educational projects, games, and learning experiences for parents exploring what to try with their children."
+	ogTitle="Vibe Parenting"
+	ogDescription="A warm, editorial guide to educational projects worth exploring with your children."
+>
+	<section class="border-b border-border bg-gradient-to-b from-accent-soft/50 to-canvas">
+		<div class="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+			<p class="text-sm font-semibold uppercase tracking-wide text-accent">For parents</p>
+			<h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-tight">
+				Find educational projects your family will actually want to explore
+			</h1>
+			<p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+				Vibe Parenting is a curated discovery site—not a link dump. Each featured project explains
+				what kids do, what it’s meant to teach, and what parents should know before diving in.
+			</p>
+		</div>
+	</section>
+
+	<section id="featured-project" class="scroll-mt-20" aria-labelledby="featured-heading">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8">
+			<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+				<div>
+					<h2 id="featured-heading" class="text-2xl font-semibold tracking-tight text-ink">
+						Featured project
+					</h2>
+					<p class="mt-2 max-w-xl text-muted">
+						Stage 2 prototype: one complete project page to review layout, tone, and information
+						hierarchy.
+					</p>
+				</div>
+			</div>
+
+			<article
+				class="mt-8 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_20px_50px_-30px_rgba(37,37,37,0.25)] transition-shadow hover:shadow-[0_28px_60px_-28px_rgba(22,140,134,0.25)]"
+			>
+				<a href={`/projects/${featured.slug}/`} class="group block focus:outline-none">
+					<div class="grid md:grid-cols-5">
+						<div class="relative md:col-span-2">
+							<div class="aspect-[16/10] md:aspect-auto md:h-full">
+								<img
+									src={featured.media.src}
+									alt={featured.media.alt}
+									width="640"
+									height="400"
+									class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+									loading="lazy"
+									decoding="async"
+								/>
+							</div>
+						</div>
+						<div class="flex flex-col justify-center p-6 sm:p-8 md:col-span-3">
+							<p
+								class="text-xs font-semibold uppercase tracking-wide text-accent"
+							>
+								{featured.category}
+							</p>
+							<h3 class="mt-2 text-2xl font-bold tracking-tight text-ink group-hover:text-accent">
+								{featured.name}
+							</h3>
+							<p class="mt-3 text-muted leading-relaxed">{featured.shortDescription}</p>
+							<p class="mt-5 text-sm font-semibold text-accent">
+								View project details
+								<span aria-hidden="true" class="ml-1 transition-transform group-hover:translate-x-0.5">
+									→
+								</span>
+							</p>
+						</div>
+					</div>
+				</a>
+			</article>
+		</div>
+	</section>
 </Layout>

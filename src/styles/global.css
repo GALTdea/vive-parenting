@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@theme {
+	--color-canvas: #faf9f6;
+	--color-ink: #252525;
+	--color-muted: #666666;
+	--color-accent: #168c86;
+	--color-accent-hover: #116b66;
+	--color-accent-soft: #e8f5f2;
+	--color-border: #e7e5e0;
+	--color-card: #ffffff;
+
+	--font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+	--radius-card: 1rem;
+	--radius-pill: 9999px;
+}
+
+@layer base {
+	html {
+		@apply scroll-smooth antialiased;
+	}
+
+	body {
+		@apply bg-canvas text-ink font-sans;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-accent;
+	}
+}
+
+@layer utilities {
+	.prose-editorial {
+		@apply text-muted leading-relaxed;
+	}
+
+	.prose-editorial p + p {
+		@apply mt-4;
+	}
+}

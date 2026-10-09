@@ -1,0 +1,29 @@
+---
+import type { InfoRow } from '../../data/space-math-academy';
+
+interface Props {
+	title?: string;
+	rows: InfoRow[];
+}
+
+const { title = 'What parents should know', rows } = Astro.props;
+---
+
+<section
+	aria-labelledby="parent-info-heading"
+	class="rounded-2xl border border-border bg-card p-6 sm:p-8"
+>
+	<h2 id="parent-info-heading" class="text-lg font-semibold tracking-tight text-ink">
+		{title}
+	</h2>
+	<dl class="mt-6 divide-y divide-border">
+		{
+			rows.map((row) => (
+				<div class="grid gap-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] sm:gap-6">
+					<dt class="text-sm font-medium text-ink">{row.label}</dt>
+					<dd class="text-sm leading-relaxed text-muted">{row.value}</dd>
+				</div>
+			))
+		}
+	</dl>
+</section>

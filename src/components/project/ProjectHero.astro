@@ -1,0 +1,96 @@
+---
+import ExternalLink from '../ExternalLink.astro';
+import ProjectMedia from './ProjectMedia.astro';
+
+interface Props {
+	category: string;
+	name: string;
+	shortDescription: string;
+	ageRange: string;
+	projectType: string;
+	tryUrl: string;
+	demoUrl?: string;
+	media: {
+		src: string;
+		alt: string;
+		caption?: string;
+	};
+}
+
+const {
+	category,
+	name,
+	shortDescription,
+	ageRange,
+	projectType,
+	tryUrl,
+	demoUrl,
+	media,
+} = Astro.props;
+---
+
+<section class="border-b border-border bg-gradient-to-b from-accent-soft/40 to-canvas pb-12 pt-8 sm:pb-16 sm:pt-10">
+	<div class="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+		<a
+			href="/"
+			class="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent"
+		>
+			<span aria-hidden="true">←</span>
+			Back to home
+		</a>
+
+		<div class="mt-8 grid items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+			<div class="order-2 lg:order-1">
+				<p
+					class="inline-flex rounded-full border border-accent/20 bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent"
+				>
+					{category}
+				</p>
+				<h1 class="mt-4 text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-[1.1]">
+					{name}
+				</h1>
+				<p class="mt-5 max-w-xl text-lg leading-relaxed text-muted">{shortDescription}</p>
+
+				<ul class="mt-6 flex flex-wrap gap-2" aria-label="Project details">
+					<li>
+						<span
+							class="inline-flex rounded-full bg-card px-3 py-1.5 text-sm text-ink ring-1 ring-border"
+						>
+							Ages {ageRange}
+						</span>
+					</li>
+					<li>
+						<span
+							class="inline-flex rounded-full bg-card px-3 py-1.5 text-sm text-ink ring-1 ring-border"
+						>
+							{projectType}
+						</span>
+					</li>
+				</ul>
+
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+					<ExternalLink
+						href={tryUrl}
+						class="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover"
+					>
+						Try Project
+					</ExternalLink>
+					{
+						demoUrl && (
+							<ExternalLink
+								href={demoUrl}
+								class="inline-flex items-center justify-center rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-accent/30 hover:bg-accent-soft/50"
+							>
+								Watch Demo
+							</ExternalLink>
+						)
+					}
+				</div>
+			</div>
+
+			<div class="order-1 lg:order-2 lg:pt-2">
+				<ProjectMedia src={media.src} alt={media.alt} caption={media.caption} />
+			</div>
+		</div>
+	</div>
+</section>
