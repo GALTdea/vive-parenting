@@ -1,0 +1,36 @@
+---
+import ProjectDetail from '../../components/projects/ProjectDetail.astro';
+import Layout from '../../layouts/Layout.astro';
+import { isProjectVisible, projectSeo, type ProjectEntry } from '../../lib/projects';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects', (entry) => isProjectVisible(entry));
+
+	return Promise.all(
+		projects.map(async (project) => {
+			const rendered = await render(project);
+			const hasBody = project.body?.trim().length > 0;
+			return {
+				params: { slug: project.id },
+				props: {
+					project,
+					Content: hasBody ? rendered.Content : undefined,
+				},
+			};
+		}),
+	);
+}
+
+interface Props {
+	project: ProjectEntry;
+	Content?: Awaited<ReturnType<typeof render>>['Content'];
+}
+
+const { project, Content } = Astro.props;
+const seo = projectSeo(project);
+---
+
+<Layout title={seo.title} description={seo.description} ogTitle={seo.ogTitle} ogDescription={seo.ogDescription}>
+	<ProjectDetail project={project} Content={Content} />
+</Layout>
