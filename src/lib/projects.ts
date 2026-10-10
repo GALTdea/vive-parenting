@@ -71,3 +71,96 @@ export function projectCreatorBlock(entry: ProjectEntry) {
 export function projectResourceLinks(entry: ProjectEntry) {
 	return entry.data.sourceLinks ?? [];
 }
+
+type YesNoUnknown = NonNullable<ProjectEntry['data']['accountRequired']>;
+
+export function formatYesNoUnknown(
+	value: YesNoUnknown | undefined,
+	notConfirmedLabel = 'Not confirmed',
+): string {
+	if (value === 'yes') return 'Yes';
+	if (value === 'no') return 'No';
+	if (value === 'unknown') return notConfirmedLabel;
+	return notConfirmedLabel;
+}
+
+export type VerificationLevel = NonNullable<ProjectEntry['data']['verificationLevel']>;
+
+export function verificationParentMessage(level: VerificationLevel): string {
+	switch (level) {
+		case 'unverified':
+			return 'We haven’t independently checked this project yet.';
+		case 'documentation_verified':
+			return 'We reviewed the project’s documentation.';
+		case 'website_verified':
+			return 'We reviewed the public website, but haven’t completed the activity.';
+		case 'interface_observed':
+			return 'We opened the project’s interface, but haven’t completed the full activity.';
+		case 'playtested':
+			return 'We tried the learning experience.';
+		default:
+			return 'We haven’t independently checked this project yet.';
+	}
+}
+
+export function formatLastVerifiedAt(date: Date): string {
+	return new Intl.DateTimeFormat('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		timeZone: 'UTC',
+	}).format(date);
+}
+
+const PRACTICAL_ROW_LABELS = new Set([
+	'Platform',
+	'Language',
+	'Pricing',
+	'Account required',
+	'Installation required',
+	'Specialized hardware required',
+]);
+
+/** Omit parentInfo rows that the template renders from structured access fields. */
+export function parentInfoWithoutPracticalDuplicates(
+	rows: ProjectEntry['data']['parentInfo'],
+): NonNullable<ProjectEntry['data']['parentInfo']> {
+	if (!rows?.length) return [];
+	return rows.filter((row) => !PRACTICAL_ROW_LABELS.has(row.label));
+}
+
+export function projectPracticalRequirementRows(
+	data: ProjectEntry['data'],
+): { label: string; value: string }[] {
+	const rows: { label: string; value: string }[] = [];
+
+	if (data.platforms?.length) {
+		rows.push({ label: 'Platform', value: data.platforms.join(', ') });
+	}
+	if (data.languages?.length) {
+		rows.push({ label: 'Language', value: data.languages.join(', ') });
+	}
+	if (data.pricing?.trim()) {
+		rows.push({ label: 'Pricing', value: data.pricing.trim() });
+	}
+	if (data.accountRequired !== undefined) {
+		rows.push({
+			label: 'Account required',
+			value: formatYesNoUnknown(data.accountRequired),
+		});
+	}
+	if (data.installationRequired !== undefined) {
+		rows.push({
+			label: 'Installation required',
+			value: formatYesNoUnknown(data.installationRequired),
+		});
+	}
+	if (data.hardwareRequired !== undefined) {
+		rows.push({
+			label: 'Specialized hardware required',
+			value: formatYesNoUnknown(data.hardwareRequired),
+		});
+	}
+
+	return rows;
+}
