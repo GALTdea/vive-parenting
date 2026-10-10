@@ -75,7 +75,7 @@ Use the body for sections such as overview, extended parent notes, or sources na
 | `review` | Visible | **Not** built or listed |
 | `published` | Visible | Built and public |
 
-Filtering is implemented in `src/lib/projects.ts` (`isProjectVisible`). The homepage and `getStaticPaths` for project pages both use this helper.
+Filtering is implemented in `src/lib/projects.ts` (`isProjectVisible`). The homepage, `/projects/` directory, and `getStaticPaths` for project pages all use this helper.
 
 ## Preview and publish
 

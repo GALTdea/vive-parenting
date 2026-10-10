@@ -1,0 +1,76 @@
+---
+import {
+	projectBrowseCategory,
+	projectCoverImage,
+	projectDirectorySearchText,
+	projectHasCoverImage,
+	type ProjectEntry,
+} from '../../lib/projects';
+
+interface Props {
+	project: ProjectEntry;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const cover = projectCoverImage(project);
+const hasCover = projectHasCoverImage(project);
+const category = projectBrowseCategory(project);
+const href = `/projects/${project.id}/`;
+---
+
+<article
+	class="project-card h-full"
+	data-category={category}
+	data-search={projectDirectorySearchText(project)}
+>
+	<a
+		href={href}
+		class="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-accent/30 hover:bg-accent-soft/30 focus-visible:border-accent"
+	>
+		<div class="aspect-[16/10] overflow-hidden bg-accent-soft">
+			{
+				hasCover ? (
+					<img
+						src={cover.src}
+						alt={cover.alt}
+						width="640"
+						height="400"
+						class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+						loading="lazy"
+						decoding="async"
+					/>
+				) : (
+					<div class="flex h-full items-center justify-center px-6 text-center" aria-hidden="true">
+						<p class="text-sm font-semibold uppercase tracking-wide text-accent">{category}</p>
+					</div>
+				)
+			}
+		</div>
+		<div class="flex flex-1 flex-col p-5 sm:p-6">
+			<p class="text-xs font-semibold uppercase tracking-wide text-accent">
+				{category}
+				<span aria-hidden="true"> · </span>
+				<span class="font-medium normal-case tracking-normal text-muted">{data.projectType}</span>
+			</p>
+			<h2 class="mt-2 text-xl font-bold tracking-tight text-ink group-hover:text-accent">
+				{data.title}
+			</h2>
+			<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{data.summary}</p>
+			{
+				data.ageRange && (
+					<p class="mt-4 text-sm text-muted">
+						<span class="sr-only">Age range: </span>
+						{data.ageRange}
+					</p>
+				)
+			}
+			<p class="mt-auto pt-5 text-sm font-semibold text-accent">
+				Explore Project
+				<span aria-hidden="true" class="ml-1 inline-block transition-transform group-hover:translate-x-0.5">
+					→
+				</span>
+			</p>
+		</div>
+	</a>
+</article>

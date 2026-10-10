@@ -1,0 +1,155 @@
+---
+import ProjectCard from '../../components/projects/ProjectCard.astro';
+import Layout from '../../layouts/Layout.astro';
+import {
+	directoryFilterLabels,
+	isProjectVisible,
+	sortDirectoryProjects,
+} from '../../lib/projects';
+import { getCollection } from 'astro:content';
+
+const projects = sortDirectoryProjects(
+	await getCollection('projects', (entry) => isProjectVisible(entry)),
+);
+const filterLabels = directoryFilterLabels(projects);
+const projectCount = projects.length;
+const countLabel = `Showing ${projectCount} ${projectCount === 1 ? 'project' : 'projects'}`;
+---
+
+<Layout
+	title="Explore Educational Projects | Vibe Parenting"
+	description="Discover curated educational games, interactive simulations, AI learning experiences, and creative tools for kids."
+	ogTitle="Explore Educational Projects | Vibe Parenting"
+	ogDescription="Discover curated educational games, interactive simulations, AI learning experiences, and creative tools for kids."
+>
+	<section class="border-b border-border bg-gradient-to-b from-accent-soft/50 to-canvas">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<h1 class="max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-tight">
+				Explore Educational Projects
+			</h1>
+			<p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+				Discover interactive learning experiences, creative experiments, and educational tools for
+				kids. Explore what children can do, what they might learn, and what parents should know
+				before getting started.
+			</p>
+		</div>
+	</section>
+
+	<section class="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-12 lg:px-8" aria-labelledby="directory-heading">
+		<h2 id="directory-heading" class="sr-only">Project directory</h2>
+
+		<div class="flex flex-col gap-6">
+			<div>
+				<label for="project-search" class="block text-sm font-medium text-ink">Search projects</label>
+				<input
+					id="project-search"
+					type="search"
+					name="q"
+					placeholder="Search projects…"
+					autocomplete="off"
+					class="mt-2 min-h-11 w-full max-w-md rounded-full border border-border bg-card px-4 py-2.5 text-base text-ink placeholder:text-muted/70"
+				/>
+			</div>
+
+			<fieldset>
+				<legend class="text-sm font-medium text-ink">Learning area</legend>
+				<div class="mt-3 flex flex-wrap gap-2">
+					<label class="directory-filter">
+						<input type="radio" name="learning-area" value="" checked class="peer sr-only" />
+						<span
+							class="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-ink peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white peer-checked:ring-2 peer-checked:ring-accent/30 peer-focus-visible:ring-2 peer-focus-visible:ring-accent"
+						>
+							All
+						</span>
+					</label>
+					{
+						filterLabels.map((label) => (
+							<label class="directory-filter">
+								<input type="radio" name="learning-area" value={label} class="peer sr-only" />
+								<span class="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-ink peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white peer-checked:ring-2 peer-checked:ring-accent/30 peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+									{label}
+								</span>
+							</label>
+						))
+					}
+				</div>
+			</fieldset>
+		</div>
+
+		<p id="project-count" class="mt-8 text-sm font-medium text-muted" aria-live="polite">
+			{countLabel}
+		</p>
+
+		<ul
+			id="project-grid"
+			class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 xl:grid-cols-3"
+		>
+			{
+				projects.map((project) => (
+					<li class="project-card-item min-w-0">
+						<ProjectCard project={project} />
+					</li>
+				))
+			}
+		</ul>
+
+		<div id="empty-state" class="mt-10 max-w-lg" hidden role="status">
+			<p class="text-xl font-semibold tracking-tight text-ink">No matching projects found</p>
+			<p class="mt-2 text-muted">Try another search or choose a different learning area.</p>
+			<button
+				id="clear-filters"
+				type="button"
+				class="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-accent/30 hover:bg-accent-soft/50"
+			>
+				Clear filters
+			</button>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	const searchInput = document.getElementById('project-search');
+	const countEl = document.getElementById('project-count');
+	const grid = document.getElementById('project-grid');
+	const emptyState = document.getElementById('empty-state');
+	const clearButton = document.getElementById('clear-filters');
+	const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
+	const cardItems = [...document.querySelectorAll<HTMLElement>('.project-card-item')];
+	const filterInputs = [...document.querySelectorAll<HTMLInputElement>('input[name="learning-area"]')];
+
+	function selectedCategory() {
+		return filterInputs.find((input) => input.checked)?.value ?? '';
+	}
+
+	function applyFilters() {
+		if (!(searchInput instanceof HTMLInputElement) || !countEl || !grid || !emptyState) return;
+
+		const query = searchInput.value.trim().toLowerCase();
+		const category = selectedCategory();
+		let visible = 0;
+
+		cards.forEach((card, index) => {
+			const matchesCategory = category === '' || card.dataset.category === category;
+			const matchesSearch = query === '' || (card.dataset.search ?? '').includes(query);
+			const show = matchesCategory && matchesSearch;
+			const item = cardItems[index];
+			if (item) item.hidden = !show;
+			if (show) visible += 1;
+		});
+
+		const noun = visible === 1 ? 'project' : 'projects';
+		countEl.textContent = `Showing ${visible} ${noun}`;
+		grid.hidden = visible === 0;
+		emptyState.hidden = visible !== 0;
+	}
+
+	searchInput?.addEventListener('input', applyFilters);
+	filterInputs.forEach((input) => input.addEventListener('change', applyFilters));
+	clearButton?.addEventListener('click', () => {
+		if (searchInput instanceof HTMLInputElement) searchInput.value = '';
+		const allFilter = filterInputs.find((input) => input.value === '');
+		if (allFilter) allFilter.checked = true;
+		applyFilters();
+		if (searchInput instanceof HTMLInputElement) searchInput.focus();
+	});
+</script>

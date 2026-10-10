@@ -48,6 +48,45 @@ export function projectCategory(entry: ProjectEntry): string | undefined {
 	return entry.data.category;
 }
 
+export function normalizeLabel(value: string): string {
+	return value.trim().replace(/\s+/g, ' ');
+}
+
+/** Short directory chip. Prefer `category`; `learningAreas` are long-form outcomes. */
+export function projectBrowseCategory(entry: ProjectEntry): string {
+	const raw = entry.data.category ?? entry.data.learningAreas[0] ?? 'Uncategorized';
+	return normalizeLabel(raw);
+}
+
+export function compareDirectoryProjects(a: ProjectEntry, b: ProjectEntry): number {
+	const featuredRank = (entry: ProjectEntry) => (entry.data.featured === true ? 0 : 1);
+	const byFeatured = featuredRank(a) - featuredRank(b);
+	if (byFeatured !== 0) return byFeatured;
+	return a.data.title.localeCompare(b.data.title, 'en', { sensitivity: 'base' });
+}
+
+export function sortDirectoryProjects(entries: ProjectEntry[]): ProjectEntry[] {
+	return [...entries].sort(compareDirectoryProjects);
+}
+
+export function directoryFilterLabels(entries: ProjectEntry[]): string[] {
+	const labels = new Set(entries.map(projectBrowseCategory));
+	return [...labels].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+}
+
+export function projectDirectorySearchText(entry: ProjectEntry): string {
+	const { title, summary, category, learningAreas } = entry.data;
+	return [title, summary, category, ...learningAreas]
+		.filter((value): value is string => Boolean(value))
+		.map(normalizeLabel)
+		.join(' ')
+		.toLowerCase();
+}
+
+export function projectHasCoverImage(entry: ProjectEntry): boolean {
+	return Boolean(entry.data.media?.src || entry.data.coverImage);
+}
+
 export function whatKidsDoParagraphs(entry: ProjectEntry): string[] {
 	return entry.data.whatKidsDo ?? [];
 }
