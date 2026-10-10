@@ -1,0 +1,131 @@
+---
+interface Screenshot {
+	src: string;
+	alt: string;
+	title: string;
+	href: string;
+}
+
+interface Props {
+	spaceMath: Screenshot;
+	promi: Screenshot;
+	marbleWater: Screenshot;
+}
+
+const { spaceMath, promi, marbleWater } = Astro.props;
+---
+
+<div class="relative mx-auto w-full max-w-lg lg:max-w-none lg:mx-0">
+	<div
+		class="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-accent-soft via-yellow-soft/40 to-blue-soft/50 opacity-80 blur-2xl sm:-inset-6 lg:-inset-4"
+		aria-hidden="true"
+	>
+	</div>
+
+	<!-- Mobile: prominent Promi + two supporting screenshots -->
+	<div class="relative space-y-3 lg:hidden">
+		<a
+			href={promi.href}
+			class="group block overflow-hidden rounded-2xl border-2 border-accent/20 bg-card shadow-[0_16px_40px_-20px_rgba(22,140,134,0.3)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-offset-4"
+		>
+			<img
+				src={promi.src}
+				alt={promi.alt}
+				width="640"
+				height="400"
+				class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.01]"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			/>
+			<span class="sr-only">{promi.title}</span>
+		</a>
+		<div class="grid grid-cols-2 gap-3">
+			<a
+				href={spaceMath.href}
+				class="group overflow-hidden rounded-xl border border-border bg-card shadow-[0_8px_24px_-12px_rgba(37,37,37,0.18)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-offset-4"
+			>
+				<img
+					src={spaceMath.src}
+					alt={spaceMath.alt}
+					width="640"
+					height="400"
+					class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+					loading="eager"
+					decoding="async"
+				/>
+				<span class="sr-only">{spaceMath.title}</span>
+			</a>
+			<a
+				href={marbleWater.href}
+				class="group overflow-hidden rounded-xl border border-border bg-card shadow-[0_8px_24px_-12px_rgba(37,37,37,0.18)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-offset-4"
+			>
+				<img
+					src={marbleWater.src}
+					alt={marbleWater.alt}
+					width="640"
+					height="400"
+					class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+					loading="eager"
+					decoding="async"
+				/>
+				<span class="sr-only">{marbleWater.title}</span>
+			</a>
+		</div>
+	</div>
+
+	<!-- Desktop: overlapping collage -->
+	<div
+		class="relative hidden aspect-[4/3] min-h-[380px] lg:block"
+		aria-hidden="false"
+	>
+		<a
+			href={marbleWater.href}
+			class="group absolute left-[2%] top-[10%] z-0 w-[52%] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_12px_40px_-16px_rgba(37,37,37,0.2)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-offset-4"
+		>
+			<img
+				src={marbleWater.src}
+				alt={marbleWater.alt}
+				width="640"
+				height="400"
+				class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+				loading="eager"
+				decoding="async"
+			/>
+			<span class="sr-only">{marbleWater.title}</span>
+		</a>
+
+		<a
+			href={promi.href}
+			class="group absolute right-[1%] top-0 z-[1] w-[56%] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_16px_48px_-18px_rgba(37,37,37,0.25)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-offset-4"
+		>
+			<img
+				src={promi.src}
+				alt={promi.alt}
+				width="640"
+				height="400"
+				class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+				loading="eager"
+				decoding="async"
+			/>
+			<span class="sr-only">{promi.title}</span>
+		</a>
+
+		<a
+			href={spaceMath.href}
+			class="group absolute bottom-0 left-[18%] z-[2] w-[68%] overflow-hidden rounded-2xl border-2 border-accent/20 bg-card shadow-[0_20px_56px_-20px_rgba(22,140,134,0.35)] transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-offset-4"
+		>
+			<img
+				src={spaceMath.src}
+				alt={spaceMath.alt}
+				width="640"
+				height="400"
+				class="aspect-[16/10] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			/>
+			<span class="sr-only">{spaceMath.title}</span>
+		</a>
+	</div>
+</div>

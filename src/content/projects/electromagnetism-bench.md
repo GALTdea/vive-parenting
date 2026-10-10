@@ -8,8 +8,9 @@ learningAreas:
   - Learning through experimentation in a virtual setup
   - Building intuition before formal physics coursework
 projectType: Interactive simulation
-category: Physics
+category: Science & STEM
 ageRange: Older children and teenagers (editorial estimate)
+ageDisplay: Older kids & teens
 editorialStatus: published
 verificationLevel: website_verified
 lastVerifiedAt: 2026-10-09

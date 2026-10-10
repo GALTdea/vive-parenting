@@ -10,6 +10,7 @@ projectType: Interactive educational game
 featured: true
 category: Mathematics
 ageRange: K–12
+ageDisplay: K–12
 editorialStatus: published
 whatKidsDo:
   - Children step into space-themed missions framed as NASA mission control training.

@@ -7,8 +7,9 @@ learningAreas:
   - Exploring introductory optics through visual experimentation
   - Connecting camera settings to what appears sharp on screen
 projectType: Interactive simulation
-category: Physics & Photography
+category: Science & STEM
 ageRange: Older children and teenagers (editorial estimate)
+ageDisplay: Older kids & teens
 editorialStatus: published
 verificationLevel: website_verified
 lastVerifiedAt: 2026-10-09

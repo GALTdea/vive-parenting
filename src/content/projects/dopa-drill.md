@@ -9,6 +9,7 @@ learningAreas:
 projectType: Gamified practice
 category: Mathematics
 ageRange: Japanese elementary grades 1–6 (as described on the project site)
+ageDisplay: Elementary
 editorialStatus: published
 verificationLevel: website_verified
 lastVerifiedAt: 2026-10-09

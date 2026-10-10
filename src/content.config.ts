@@ -59,6 +59,8 @@ const projects = defineCollection({
 		category: z.string().optional(),
 
 		ageRange: z.string().optional(),
+		/** Short card label derived from ageRange research (e.g. "Ages 8–14"). */
+		ageDisplay: z.string().optional(),
 		skills: z.array(z.string()).optional(),
 		whatKidsDo: z.array(z.string()).optional(),
 		whatKidsLearn: z.string().optional(),

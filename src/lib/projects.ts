@@ -53,9 +53,26 @@ export function normalizeLabel(value: string): string {
 }
 
 /** Short directory chip. Prefer `category`; `learningAreas` are long-form outcomes. */
+/** Primary browse taxonomy for directory filters and cards. */
+export const BROWSE_CATEGORIES = [
+	'Mathematics',
+	'Science & STEM',
+	'AI Literacy',
+	'Coding',
+	'Financial Literacy',
+] as const;
+
+export type BrowseCategory = (typeof BROWSE_CATEGORIES)[number];
+
 export function projectBrowseCategory(entry: ProjectEntry): string {
 	const raw = entry.data.category ?? entry.data.learningAreas[0] ?? 'Uncategorized';
 	return normalizeLabel(raw);
+}
+
+/** Concise age label for project cards; omit when not set. */
+export function projectCardAgeDisplay(entry: ProjectEntry): string | undefined {
+	const label = entry.data.ageDisplay?.trim();
+	return label || undefined;
 }
 
 export function compareDirectoryProjects(a: ProjectEntry, b: ProjectEntry): number {
@@ -70,8 +87,12 @@ export function sortDirectoryProjects(entries: ProjectEntry[]): ProjectEntry[] {
 }
 
 export function directoryFilterLabels(entries: ProjectEntry[]): string[] {
-	const labels = new Set(entries.map(projectBrowseCategory));
-	return [...labels].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+	const present = new Set(entries.map(projectBrowseCategory));
+	return BROWSE_CATEGORIES.filter((label) => present.has(label));
+}
+
+export function isBrowseCategory(value: string): value is BrowseCategory {
+	return (BROWSE_CATEGORIES as readonly string[]).includes(value);
 }
 
 export function projectDirectorySearchText(entry: ProjectEntry): string {

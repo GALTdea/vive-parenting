@@ -10,6 +10,7 @@ learningAreas:
 projectType: Family game
 category: Financial Literacy
 ageRange: Approximately ages 6–8 (creator claim)
+ageDisplay: Ages 6–8
 editorialStatus: published
 verificationLevel: interface_observed
 lastVerifiedAt: 2026-10-09

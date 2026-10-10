@@ -1,6 +1,7 @@
 ---
 import {
 	projectBrowseCategory,
+	projectCardAgeDisplay,
 	projectCoverImage,
 	projectDirectorySearchText,
 	projectHasCoverImage,
@@ -16,6 +17,7 @@ const { data } = project;
 const cover = projectCoverImage(project);
 const hasCover = projectHasCoverImage(project);
 const category = projectBrowseCategory(project);
+const ageDisplay = projectCardAgeDisplay(project);
 const href = `/projects/${project.id}/`;
 ---
 
@@ -58,10 +60,10 @@ const href = `/projects/${project.id}/`;
 			</h2>
 			<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{data.summary}</p>
 			{
-				data.ageRange && (
+				ageDisplay && (
 					<p class="mt-4 text-sm text-muted">
 						<span class="sr-only">Age range: </span>
-						{data.ageRange}
+						{ageDisplay}
 					</p>
 				)
 			}

@@ -8,8 +8,9 @@ learningAreas:
   - Learning through experimentation with circuit layouts
   - Developing basic engineering reasoning
 projectType: Interactive simulation
-category: Science & Technology
+category: Science & STEM
 ageRange: Secondary school students (editorial estimate)
+ageDisplay: Teens
 editorialStatus: published
 verificationLevel: interface_observed
 lastVerifiedAt: 2026-10-09

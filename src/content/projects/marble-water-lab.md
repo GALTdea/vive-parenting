@@ -8,8 +8,9 @@ learningAreas:
   - Scientific curiosity through interactive visualization
   - Experimentation by changing one variable and observing results
 projectType: Interactive science simulation
-category: Science
+category: Science & STEM
 ageRange: Primary / elementary, approximately 8–12 (editorial estimate)
+ageDisplay: Ages 8–12
 editorialStatus: published
 verificationLevel: website_verified
 lastVerifiedAt: 2026-10-09

@@ -1,96 +1,259 @@
 ---
+import HeroScreenshotCollage from '../components/home/HeroScreenshotCollage.astro';
+import TopicCard from '../components/home/TopicCard.astro';
+import ProjectCard from '../components/projects/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
-import { isProjectVisible, projectCategory, projectCoverImage } from '../lib/projects';
+import { isProjectVisible, projectCoverImage } from '../lib/projects';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects', (entry) => isProjectVisible(entry));
-const featured =
-	allProjects.find((entry) => entry.data.featured) ??
-	allProjects.find((entry) => entry.data.editorialStatus === 'published');
 
-if (!featured) {
-	throw new Error('No featured or published project found for the homepage.');
+const HERO_AND_FEATURED_SLUGS = [
+	'space-math-academy',
+	'promis-prompt-school',
+	'marble-water-lab',
+] as const;
+
+function projectBySlug(slug: (typeof HERO_AND_FEATURED_SLUGS)[number]) {
+	const entry = allProjects.find((p) => p.id === slug);
+	if (!entry) {
+		throw new Error(`Homepage project not found: ${slug}`);
+	}
+	return entry;
 }
 
-const cover = projectCoverImage(featured);
-const category = projectCategory(featured) ?? featured.data.learningAreas[0];
-const { data } = featured;
+const heroProjects = HERO_AND_FEATURED_SLUGS.map(projectBySlug);
+const featuredProjects = heroProjects;
+
+function heroScreenshot(project: ReturnType<typeof projectBySlug>) {
+	const cover = projectCoverImage(project);
+	return {
+		src: cover.src,
+		alt: cover.alt,
+		title: project.data.title,
+		href: `/projects/${project.id}/`,
+	};
+}
+
+const heroSpaceMath = heroScreenshot(projectBySlug('space-math-academy'));
+const heroPromi = heroScreenshot(projectBySlug('promis-prompt-school'));
+const heroMarbleWater = heroScreenshot(projectBySlug('marble-water-lab'));
+
+function categoryProjectsHref(category: string) {
+	return `/projects/?category=${encodeURIComponent(category)}`;
+}
+
+const topics = [
+	{
+		title: 'Math',
+		description: 'Numbers, puzzles, and problem-solving.',
+		href: categoryProjectsHref('Mathematics'),
+		ariaLabel: 'Browse Mathematics projects',
+		accent: 'teal' as const,
+	},
+	{
+		title: 'Science & STEM',
+		description: 'Experiments, simulations, and discoveries.',
+		href: categoryProjectsHref('Science & STEM'),
+		ariaLabel: 'Browse Science and STEM projects',
+		accent: 'sage' as const,
+	},
+	{
+		title: 'AI & Technology',
+		description: 'Exploring how AI works.',
+		href: categoryProjectsHref('AI Literacy'),
+		ariaLabel: 'Browse AI Literacy projects',
+		accent: 'blue' as const,
+	},
+	{
+		title: 'Coding',
+		description: 'Making things with code.',
+		href: categoryProjectsHref('Coding'),
+		ariaLabel: 'Browse Coding projects',
+		accent: 'yellow' as const,
+	},
+	{
+		title: 'Money & Markets',
+		description: 'Games about money and decisions.',
+		href: categoryProjectsHref('Financial Literacy'),
+		ariaLabel: 'Browse Financial Literacy projects',
+		accent: 'coral' as const,
+	},
+];
 ---
 
 <Layout
-	title="Vibe Parenting — Discover educational projects for families"
-	description="Curated educational projects, games, and learning experiences for parents exploring what to try with their children."
+	title="Vibe Parenting — Cool things people are building to help kids learn"
+	description="A parent's corner of the internet collecting educational projects, games, and experiments worth exploring with your kids."
 	ogTitle="Vibe Parenting"
-	ogDescription="A warm, editorial guide to educational projects worth exploring with your children."
+	ogDescription="Cool things people are building to help kids learn—collected by a parent who loves creative coding and AI."
 >
-	<section class="border-b border-border bg-gradient-to-b from-accent-soft/50 to-canvas">
-		<div class="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-			<p class="text-sm font-semibold uppercase tracking-wide text-accent">For parents</p>
-			<h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-tight">
-				Find educational projects your family will actually want to explore
-			</h1>
-			<p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
-				Vibe Parenting is a curated discovery site—not a link dump. Each featured project explains
-				what kids do, what it's meant to teach, and what parents should know before diving in.
-			</p>
+	<!-- Section 1: Hero -->
+	<section class="overflow-hidden border-b border-border bg-gradient-to-b from-accent-soft/40 via-canvas to-canvas">
+		<div class="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-8 lg:py-20 xl:gap-16">
+			<div class="min-w-0">
+				<p class="text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:text-sm">
+					COMMUNITY-CREATED LEARNING TOOLS
+				</p>
+				<h1 class="mt-4 max-w-xl text-[1.875rem] font-bold leading-[1.14] tracking-tight text-ink sm:max-w-none sm:text-[2.75rem] sm:leading-[1.1] lg:text-[3.125rem] lg:leading-[1.08]">
+					See what parents, teachers, and makers are building for kids.
+				</h1>
+				<p class="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-[1.0625rem] sm:leading-relaxed lg:text-lg">
+					Parents, teachers, and makers are building some really cool learning tools for kids,
+					especially with AI making it easier to create things. I started Vibe Parenting to bring
+					these projects together. The idea is simple: let's share what we're building, learn from
+					each other, and help more kids along the way.
+				</p>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+					<a
+						href="/projects/"
+						class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+					>
+						Explore Projects
+						<span aria-hidden="true" class="ml-1.5">→</span>
+					</a>
+					<a
+						href="#about"
+						class="inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-accent/30 hover:bg-accent-soft/40"
+					>
+						Why I started this
+						<span aria-hidden="true" class="ml-1.5">→</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="min-w-0 lg:justify-self-end">
+				<HeroScreenshotCollage
+					spaceMath={heroSpaceMath}
+					promi={heroPromi}
+					marbleWater={heroMarbleWater}
+				/>
+			</div>
 		</div>
 	</section>
 
-	<section id="featured-project" class="scroll-mt-20" aria-labelledby="featured-heading">
-		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8">
-			<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-				<div>
-					<h2 id="featured-heading" class="text-2xl font-semibold tracking-tight text-ink">
-						Featured project
+	<!-- Section 2: Explore by Topic -->
+	<section class="border-b border-border bg-canvas" aria-labelledby="topics-heading">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<div class="max-w-2xl">
+				<h2 id="topics-heading" class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+					What are your kids into?
+				</h2>
+				<p class="mt-3 text-base leading-relaxed text-muted sm:text-lg">
+					Math games, science experiments, coding projects, and a few things that are just hard to
+					categorize.
+				</p>
+			</div>
+
+			<ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
+				{
+					topics.map((topic) => (
+						<li class="min-w-0">
+							<TopicCard
+								title={topic.title}
+								description={topic.description}
+								href={topic.href}
+								accent={topic.accent}
+								ariaLabel={topic.ariaLabel}
+							/>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<!-- Section 3: Featured Projects -->
+	<section class="border-b border-border bg-card/50" aria-labelledby="featured-heading">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+				<div class="max-w-2xl">
+					<h2 id="featured-heading" class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+						A few projects worth checking out
 					</h2>
-					<p class="mt-2 max-w-xl text-muted">
-						Stage 2 prototype: one complete project page to review layout, tone, and information
-						hierarchy.
+					<p class="mt-3 text-base leading-relaxed text-muted sm:text-lg">
+						Some are polished, some are experiments, and some were probably built over a weekend.
+						That's part of what makes them interesting.
 					</p>
 				</div>
 				<a
 					href="/projects/"
-					class="inline-flex min-h-11 items-center text-sm font-semibold text-accent transition-colors hover:text-accent-hover"
+					class="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-accent transition-colors hover:text-accent-hover"
 				>
-					Browse All Projects
+					See all projects
 					<span aria-hidden="true" class="ml-1">→</span>
 				</a>
 			</div>
 
-			<article
-				class="mt-8 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_20px_50px_-30px_rgba(37,37,37,0.25)] transition-shadow hover:shadow-[0_28px_60px_-28px_rgba(22,140,134,0.25)]"
+			<ul class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3">
+				{
+					featuredProjects.map((project) => (
+						<li class="min-w-0">
+							<ProjectCard project={project} />
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<!-- Section 4: About -->
+	<section
+		id="about"
+		class="scroll-mt-[4.5rem] border-b border-border bg-sage-soft/35"
+		aria-labelledby="about-heading"
+	>
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<div class="relative mx-auto max-w-3xl lg:max-w-none lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14 lg:items-start">
+				<div
+					class="pointer-events-none absolute -left-3 top-0 hidden h-24 w-1 rounded-full bg-accent/50 lg:block"
+					aria-hidden="true"
+				>
+				</div>
+				<div class="lg:pt-2">
+					<h2 id="about-heading" class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+						Why I started this
+					</h2>
+				</div>
+				<div class="prose-editorial mt-6 text-base sm:text-lg lg:mt-0">
+					<p>I'm a parent of two kids, and I also enjoy building things with code and AI.</p>
+					<p>
+						Lately, I've been fascinated by how easy it's becoming for parents, teachers, and
+						developers to create their own educational games, tools, and little experiments.
+					</p>
+					<p>
+						Some of these projects are surprisingly good. Others are rough around the edges but have
+						really interesting ideas.
+					</p>
+					<p>
+						I wanted a place to collect them, share what they do, and hopefully inspire more parents
+						to try them—or even build something themselves.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Section 5: Closing CTA -->
+	<section class="bg-canvas" aria-labelledby="closing-cta-heading">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8">
+			<div
+				class="rounded-3xl border border-accent/20 bg-gradient-to-br from-accent-soft/80 via-card to-yellow-soft/50 px-6 py-10 text-center sm:px-10 sm:py-12 lg:px-14"
 			>
-				<a href={`/projects/${featured.id}/`} class="group block focus:outline-none">
-					<div class="grid md:grid-cols-5">
-						<div class="relative md:col-span-2">
-							<div class="aspect-[16/10] md:aspect-auto md:h-full">
-								<img
-									src={cover.src}
-									alt={cover.alt}
-									width="640"
-									height="400"
-									class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
-									loading="lazy"
-									decoding="async"
-								/>
-							</div>
-						</div>
-						<div class="flex flex-col justify-center p-6 sm:p-8 md:col-span-3">
-							<p class="text-xs font-semibold uppercase tracking-wide text-accent">{category}</p>
-							<h3 class="mt-2 text-2xl font-bold tracking-tight text-ink group-hover:text-accent">
-								{data.title}
-							</h3>
-							<p class="mt-3 text-muted leading-relaxed">{data.summary}</p>
-							<p class="mt-5 text-sm font-semibold text-accent">
-								View project details
-								<span aria-hidden="true" class="ml-1 transition-transform group-hover:translate-x-0.5">
-									→
-								</span>
-							</p>
-						</div>
-					</div>
+				<h2 id="closing-cta-heading" class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+					Found something interesting?
+				</h2>
+				<p class="mx-auto mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+					Pick a project, give it a try with your kids, and see what happens.
+				</p>
+				<a
+					href="/projects/"
+					class="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+				>
+					Browse the projects
+					<span aria-hidden="true" class="ml-1.5">→</span>
 				</a>
-			</article>
+			</div>
 		</div>
 	</section>
 </Layout>

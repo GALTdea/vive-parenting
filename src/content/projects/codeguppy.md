@@ -10,6 +10,7 @@ learningAreas:
 projectType: Creative coding
 category: Coding
 ageRange: Middle and high school students (editorial estimate)
+ageDisplay: Teens
 editorialStatus: published
 verificationLevel: website_verified
 lastVerifiedAt: 2026-10-09

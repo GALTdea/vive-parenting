@@ -10,6 +10,7 @@ learningAreas:
 projectType: Interactive learning game
 category: AI Literacy
 ageRange: Approximately 8–14 (creator claim)
+ageDisplay: Ages 8–14
 editorialStatus: published
 verificationLevel: interface_observed
 lastVerifiedAt: 2026-10-09

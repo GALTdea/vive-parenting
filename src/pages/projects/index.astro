@@ -2,6 +2,7 @@
 import ProjectCard from '../../components/projects/ProjectCard.astro';
 import Layout from '../../layouts/Layout.astro';
 import {
+	BROWSE_CATEGORIES,
 	directoryFilterLabels,
 	isProjectVisible,
 	sortDirectoryProjects,
@@ -107,18 +108,40 @@ const countLabel = `Showing ${projectCount} ${projectCount === 1 ? 'project' : '
 	</section>
 </Layout>
 
-<script>
+<script define:vars={{ browseCategories: [...BROWSE_CATEGORIES] }}>
 	const searchInput = document.getElementById('project-search');
 	const countEl = document.getElementById('project-count');
 	const grid = document.getElementById('project-grid');
 	const emptyState = document.getElementById('empty-state');
 	const clearButton = document.getElementById('clear-filters');
-	const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
-	const cardItems = [...document.querySelectorAll<HTMLElement>('.project-card-item')];
-	const filterInputs = [...document.querySelectorAll<HTMLInputElement>('input[name="learning-area"]')];
+	const cards = [...document.querySelectorAll('.project-card')];
+	const cardItems = [...document.querySelectorAll('.project-card-item')];
+	const filterInputs = [...document.querySelectorAll('input[name="learning-area"]')];
+	const validCategories = new Set(browseCategories);
 
 	function selectedCategory() {
 		return filterInputs.find((input) => input.checked)?.value ?? '';
+	}
+
+	function categoryFromUrl() {
+		const params = new URLSearchParams(window.location.search);
+		const category = params.get('category')?.trim() ?? '';
+		if (category && validCategories.has(category)) return category;
+		return '';
+	}
+
+	function syncCategoryParam(category) {
+		const url = new URL(window.location.href);
+		if (category) url.searchParams.set('category', category);
+		else url.searchParams.delete('category');
+		window.history.replaceState(null, '', url);
+	}
+
+	function setSelectedCategory(category) {
+		const match =
+			filterInputs.find((input) => input.value === category) ??
+			filterInputs.find((input) => input.value === '');
+		if (match) match.checked = true;
 	}
 
 	function applyFilters() {
@@ -144,12 +167,21 @@ const countLabel = `Showing ${projectCount} ${projectCount === 1 ? 'project' : '
 	}
 
 	searchInput?.addEventListener('input', applyFilters);
-	filterInputs.forEach((input) => input.addEventListener('change', applyFilters));
+	filterInputs.forEach((input) =>
+		input.addEventListener('change', () => {
+			syncCategoryParam(selectedCategory());
+			applyFilters();
+		}),
+	);
 	clearButton?.addEventListener('click', () => {
 		if (searchInput instanceof HTMLInputElement) searchInput.value = '';
-		const allFilter = filterInputs.find((input) => input.value === '');
-		if (allFilter) allFilter.checked = true;
+		setSelectedCategory('');
+		syncCategoryParam('');
 		applyFilters();
 		if (searchInput instanceof HTMLInputElement) searchInput.focus();
 	});
+
+	const initialCategory = categoryFromUrl();
+	if (initialCategory) setSelectedCategory(initialCategory);
+	applyFilters();
 </script>
