@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projectSubmissionMailto } from '../../lib/site';
+
+const submissionMailto = projectSubmissionMailto();
+
+const includeItems = [
+	{
+		title: 'Project name',
+		description: 'What do you call your project?',
+	},
+	{
+		title: 'Project link',
+		description: 'Where can we find it?',
+	},
+	{
+		title: 'Short description',
+		description: 'What does it do, and how does it help kids?',
+	},
+	{
+		title: 'Who it’s for (optional)',
+		description: 'What ages or types of learners might benefit?',
+	},
+];
+---
+
+<Layout
+	title="Submit a Project | Vibe Parenting"
+	description="Share a learning tool you built for kids. Tell us about your project by email—no form required."
+	ogTitle="Submit a Project | Vibe Parenting"
+	ogDescription="Share a learning tool you built for kids. Tell us about your project by email—no form required."
+>
+	<section class="border-b border-border bg-gradient-to-b from-accent-soft/50 to-canvas">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<h1 class="max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-tight">
+				Built something cool for kids? Share it!
+			</h1>
+			<div class="mt-5 max-w-2xl space-y-4 text-lg leading-relaxed text-muted">
+				<p>
+					Vibe Parenting is a place to discover learning tools created by parents, educators, and
+					independent makers.
+				</p>
+				<p>
+					If you’ve built something that helps kids learn, explore, or develop new skills, we’d love
+					to see it.
+				</p>
+				<p>
+					It doesn’t have to be perfect or professionally made. Sometimes the simplest projects are the
+					most useful.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+		<div class="mx-auto max-w-2xl">
+			<h2 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">What to include</h2>
+			<ul class="mt-8 space-y-6">
+				{
+					includeItems.map((item) => (
+						<li class="flex gap-4">
+							<span
+								class="mt-2 h-2 w-2 shrink-0 rounded-full bg-accent"
+								aria-hidden="true"
+							/>
+							<div>
+								<p class="font-semibold text-ink">{item.title}</p>
+								<p class="mt-1 leading-relaxed text-muted">{item.description}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+
+			<div class="mt-12 rounded-3xl border border-accent/20 bg-gradient-to-br from-accent-soft/60 via-card to-yellow-soft/40 px-6 py-10 text-center sm:px-10">
+				{
+					submissionMailto ? (
+						<a
+							href={submissionMailto}
+							class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+						>
+							Submit Your Project
+							<span aria-hidden="true" class="ml-1.5">
+								→
+							</span>
+						</a>
+					) : import.meta.env.DEV ? (
+						<p class="text-sm leading-relaxed text-muted" role="status">
+							Project submissions are not configured yet. Set{' '}
+							<code class="rounded bg-canvas px-1.5 py-0.5 text-xs text-ink">SUBMISSION_EMAIL</code>{' '}
+							in your environment to enable the submission button.
+						</p>
+					) : (
+						<p class="text-sm leading-relaxed text-muted" role="status">
+							Email submissions are temporarily unavailable. Please check back soon.
+						</p>
+					)
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
