@@ -1,0 +1,220 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { privacyContactMailto, submissionEmailAddress } from '../../lib/site';
+
+const lastUpdated = 'October 13, 2026';
+const privacyMailto = privacyContactMailto();
+const contactEmail = submissionEmailAddress();
+---
+
+<Layout
+	title="Privacy Policy | Vibe Parenting"
+	description="How Vibe Parenting handles analytics, optional cookies, project submissions, and links to third-party learning projects."
+	ogTitle="Privacy Policy | Vibe Parenting"
+	ogDescription="How Vibe Parenting handles analytics, optional cookies, project submissions, and links to third-party learning projects."
+>
+	<section class="border-b border-border bg-gradient-to-b from-accent-soft/50 to-canvas">
+		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+			<h1 class="max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl sm:leading-tight">
+				Privacy Policy
+			</h1>
+			<p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+				We try to keep this straightforward. This page describes what the Vibe Parenting website
+				actually does today—not what we might add later.
+			</p>
+			<p class="mt-3 text-sm text-muted/90">Last updated: {lastUpdated}</p>
+		</div>
+	</section>
+
+	<section class="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+		<article class="prose-editorial mx-auto max-w-2xl space-y-10 text-base">
+			<section aria-labelledby="info-we-collect">
+				<h2 id="info-we-collect" class="text-2xl font-bold tracking-tight text-ink">
+					Information we collect
+				</h2>
+				<div class="mt-4 space-y-4">
+					<p>
+						<strong class="font-semibold text-ink">Google Analytics (optional).</strong> If you accept
+						in our consent banner or Privacy Settings, Google Analytics 4 (GA4) loads and may collect
+						technical and usage information—such as pages viewed, approximate location derived from IP
+						address, browser type, device type, and referral source. We do not send names, email
+						addresses, or information about children to GA4 through this website’s integration.
+					</p>
+					<p>
+						<strong class="font-semibold text-ink">Cloudflare Web Analytics (separate).</strong>
+						Cloudflare Web Analytics may collect privacy-oriented traffic metrics when you visit the
+						live site. It is enabled in our Cloudflare dashboard and is
+						<strong class="font-semibold text-ink">not</strong> controlled by your Google Analytics
+						preference. Declining Google Analytics does not turn off Cloudflare Web Analytics. See
+						<a
+							href="https://www.cloudflare.com/privacypolicy/"
+							class="font-medium text-accent underline-offset-2 hover:underline"
+							rel="noopener noreferrer"
+						>
+							Cloudflare’s privacy policy
+						</a>.
+					</p>
+					<p>
+						<strong class="font-semibold text-ink">Stored in your browser.</strong> We save your analytics
+						choice (accept or decline) in your browser’s local storage so we can remember it on future
+						visits. We do not use that storage for advertising profiles.
+					</p>
+					<p>
+						<strong class="font-semibold text-ink">Voluntary submissions.</strong> There is no newsletter
+						sign-up and no contact form on this site. If you choose to submit a project, you use a
+						<code class="rounded bg-canvas px-1.5 py-0.5 text-sm text-ink">mailto:</code> link that opens
+						your email app. Any information you send (project details, your name, email address, and so
+						on) is whatever you choose to include in that message. We do not receive it unless you send
+						the email.
+					</p>
+					<p>
+						<strong class="font-semibold text-ink">Accounts.</strong> Vibe Parenting does not offer user
+						accounts or log-in on this website.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="how-we-use">
+				<h2 id="how-we-use" class="text-2xl font-bold tracking-tight text-ink">
+					How we use information
+				</h2>
+				<div class="mt-4 space-y-4">
+					<p>When Google Analytics is enabled, we use it to understand, in aggregate:</p>
+					<ul class="list-disc space-y-2 pl-5">
+						<li>How visitors discover Vibe Parenting</li>
+						<li>Which projects and pages people find useful</li>
+						<li>How people move through the project directory</li>
+						<li>How we might improve the site over time</li>
+					</ul>
+					<p>
+						Email submissions are used to review projects for possible inclusion in the directory and
+						to reply when appropriate.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="analytics-services">
+				<h2 id="analytics-services" class="text-2xl font-bold tracking-tight text-ink">
+					Analytics services
+				</h2>
+				<div class="mt-4 space-y-4">
+					<p>
+						<strong class="font-semibold text-ink">Google Analytics 4</strong> (measurement ID
+						<code class="rounded bg-canvas px-1.5 py-0.5 text-sm text-ink">G-YGH3N5GGPF</code>) loads
+						only after you accept optional analytics. Google may process data according to its own
+						policies. Learn more in
+						<a
+							href="https://policies.google.com/privacy"
+							class="font-medium text-accent underline-offset-2 hover:underline"
+							rel="noopener noreferrer"
+						>
+							Google’s Privacy Policy
+						</a>
+						and
+						<a
+							href="https://support.google.com/analytics/answer/6004245"
+							class="font-medium text-accent underline-offset-2 hover:underline"
+							rel="noopener noreferrer"
+						>
+							How Google Analytics collects and processes data
+						</a>.
+					</p>
+					<p>
+						<strong class="font-semibold text-ink">Cloudflare Web Analytics</strong> is enabled for
+						our Cloudflare Pages deployment. It is separate from GA4 and may collect technical
+						visit data even if you decline GA4. See
+						<a
+							href="https://developers.cloudflare.com/analytics/web-analytics/"
+							class="font-medium text-accent underline-offset-2 hover:underline"
+							rel="noopener noreferrer"
+						>
+							Cloudflare Web Analytics documentation
+						</a>.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="cookies-tracking">
+				<h2 id="cookies-tracking" class="text-2xl font-bold tracking-tight text-ink">
+					Cookies and tracking
+				</h2>
+				<div class="mt-4 space-y-4">
+					<p>
+						If you accept optional analytics, GA4 may set cookies or use similar technologies (for
+						example, identifiers whose names often start with
+						<code class="rounded bg-canvas px-1.5 py-0.5 text-sm text-ink">_ga</code>) to distinguish
+						browsers and measure traffic.
+					</p>
+					<p>
+						You can change your Google Analytics choice anytime via
+						<button
+							type="button"
+							data-open-privacy-settings
+							class="font-medium text-accent underline-offset-2 hover:underline"
+						>
+							Privacy Settings
+						</button>
+						in the footer. Declining or withdrawing stops future GA4 on this browser and clears
+						GA-related cookies where we can. It does not turn off Cloudflare Web Analytics and does
+						not delete data Google may have already received from earlier visits.
+					</p>
+					<p>
+						Your browser may also let you block cookies or local storage. Blocking local storage may
+						prevent us from remembering your analytics choice.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="children">
+				<h2 id="children" class="text-2xl font-bold tracking-tight text-ink">Children’s privacy</h2>
+				<div class="mt-4 space-y-4">
+					<p>
+						Vibe Parenting is written for parents, educators, and adult creators exploring tools for
+						children. The site is not designed for children to create accounts or submit personal
+						information directly on vibeparenting.org.
+					</p>
+					<p>
+						We do not intentionally collect personal information directly from children through this
+						website. Like most websites, analytics services may still receive technical data from any
+						browser that loads the site, including if a child uses a shared device. We do not ask
+						visitors to enter a child’s name or other identifying details into our analytics tools.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="third-party">
+				<h2 id="third-party" class="text-2xl font-bold tracking-tight text-ink">
+					Third-party projects
+				</h2>
+				<p class="mt-4">
+					Listed projects are run by their creators, not by Vibe Parenting. When you follow a link to
+					an external project, that site’s privacy practices apply. We encourage you to read their
+					policies before sharing personal information there.
+				</p>
+			</section>
+
+			<section aria-labelledby="contact">
+				<h2 id="contact" class="text-2xl font-bold tracking-tight text-ink">Contact</h2>
+				<div class="mt-4 space-y-4">
+					<p>
+						Questions about this policy or your privacy on vibeparenting.org? Email us at
+						<a
+							href={privacyMailto}
+							class="font-medium text-accent underline-offset-2 hover:underline"
+						>
+							{contactEmail}
+						</a>.
+					</p>
+				</div>
+			</section>
+
+			<section aria-labelledby="updates">
+				<h2 id="updates" class="text-2xl font-bold tracking-tight text-ink">Updates</h2>
+				<p class="mt-4">
+					We may update this page when the website changes. When we do, we will revise the “Last
+					updated” date above.
+				</p>
+			</section>
+		</article>
+	</section>
+</Layout>

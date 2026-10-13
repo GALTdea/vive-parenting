@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 
@@ -41,5 +42,6 @@ const openGraphDescription = ogDescription ?? description;
 			<slot />
 		</main>
 		<SiteFooter />
+		<AnalyticsConsent />
 	</body>
 </html>

@@ -34,3 +34,14 @@ export function projectSubmissionMailto(): string | null {
 
 	return `mailto:${email}?${params.toString()}`;
 }
+
+const PRIVACY_SUBJECT = 'Vibe Parenting — Privacy Question';
+
+/** Mailto link for privacy-related questions (uses the same inbound address as submissions). */
+export function privacyContactMailto(): string {
+	const email = submissionEmailAddress();
+	const params = new URLSearchParams({
+		subject: PRIVACY_SUBJECT,
+	});
+	return `mailto:${email}?${params.toString()}`;
+}

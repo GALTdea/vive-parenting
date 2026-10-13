@@ -1,0 +1,113 @@
+---
+
+<div
+	id="analytics-consent-banner"
+	class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 p-4 shadow-[0_-8px_32px_-12px_rgba(37,37,37,0.15)] backdrop-blur-md sm:p-5"
+	hidden
+	role="region"
+	aria-label="Analytics consent"
+>
+	<div
+		class="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+	>
+		<p class="max-w-2xl text-sm leading-relaxed text-muted">
+			We use optional <strong class="font-semibold text-ink">Google Analytics</strong> to see which
+			projects people find useful—it only loads if you accept. Cloudflare Web Analytics runs
+			separately on our live site and is not affected by this choice.
+			<a href="/privacy/" class="font-medium text-accent underline-offset-2 hover:underline">
+				Privacy Policy
+			</a>
+		</p>
+		<div class="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+			<button
+				type="button"
+				class="js-analytics-decline inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-canvas px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-accent/30 hover:bg-accent-soft/50"
+				data-analytics-decline
+			>
+				Decline
+			</button>
+			<button
+				type="button"
+				class="js-analytics-accept inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+				data-analytics-accept
+			>
+				Accept Analytics
+			</button>
+		</div>
+	</div>
+</div>
+
+<dialog
+	id="analytics-consent-settings"
+	class="fixed inset-x-4 top-[15vh] z-50 m-0 w-[calc(100%-2rem)] max-w-lg rounded-2xl border border-border bg-card p-0 shadow-xl backdrop:bg-ink/40 open:flex open:flex-col sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2"
+	aria-labelledby="privacy-settings-title"
+>
+	<form method="dialog" class="flex flex-col">
+		<div class="border-b border-border px-6 py-5">
+			<h2 id="privacy-settings-title" class="text-lg font-bold text-ink">Privacy Settings</h2>
+			<p id="analytics-consent-status" class="mt-2 text-sm leading-relaxed text-muted">
+				You have not chosen yet.
+			</p>
+		</div>
+		<div class="space-y-4 px-6 py-5 text-sm leading-relaxed text-muted">
+			<p>
+				<strong class="font-semibold text-ink">Google Analytics</strong> is optional and loads only
+				after you accept. Declining or withdrawing stops future Google Analytics on this browser.
+			</p>
+			<p>
+				<strong class="font-semibold text-ink">Cloudflare Web Analytics</strong> is enabled separately
+				in our hosting settings. It is not controlled by these buttons and may still collect basic
+				traffic data on vibeparenting.org. Details are in our
+				<a href="/privacy/" class="font-medium text-accent underline-offset-2 hover:underline">
+					Privacy Policy
+				</a>.
+			</p>
+			<p>Your choice is saved in this browser only.</p>
+		</div>
+		<div class="flex flex-wrap gap-2 border-t border-border px-6 py-4">
+			<button
+				type="button"
+				class="js-analytics-decline inline-flex min-h-11 flex-1 items-center justify-center rounded-full border border-border bg-canvas px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-accent/30 sm:flex-none sm:px-5"
+				data-analytics-decline
+			>
+				Decline
+			</button>
+			<button
+				type="button"
+				class="js-analytics-accept inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover sm:flex-none sm:px-5"
+				data-analytics-accept
+			>
+				Accept Analytics
+			</button>
+			<button
+				type="button"
+				class="inline-flex min-h-11 w-full items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold text-muted transition-colors hover:text-ink sm:ml-auto sm:w-auto"
+				data-close-settings
+			>
+				Close
+			</button>
+		</div>
+	</form>
+</dialog>
+
+<script>
+	import { GA_MEASUREMENT_ID } from '../lib/consent.ts';
+	import { initAnalyticsConsent } from '../scripts/analytics-consent.ts';
+
+	const banner = document.getElementById('analytics-consent-banner');
+	const settingsDialog = document.getElementById('analytics-consent-settings');
+	const statusEl = document.getElementById('analytics-consent-status');
+
+	if (banner && settingsDialog instanceof HTMLDialogElement && statusEl) {
+		initAnalyticsConsent({
+			measurementId: GA_MEASUREMENT_ID,
+			analyticsEnabled: import.meta.env.PROD,
+			banner,
+			settingsDialog,
+			statusEl,
+			openSettingsTriggers: Array.from(document.querySelectorAll('[data-open-privacy-settings]')),
+			acceptButtons: Array.from(document.querySelectorAll('[data-analytics-accept]')),
+			declineButtons: Array.from(document.querySelectorAll('[data-analytics-decline]')),
+		});
+	}
+</script>
