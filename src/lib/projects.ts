@@ -60,6 +60,7 @@ export const BROWSE_CATEGORIES = [
 	'AI Literacy',
 	'Coding',
 	'Financial Literacy',
+	'Neurodiversity & Accessibility',
 ] as const;
 
 export type BrowseCategory = (typeof BROWSE_CATEGORIES)[number];
@@ -86,9 +87,8 @@ export function sortDirectoryProjects(entries: ProjectEntry[]): ProjectEntry[] {
 	return [...entries].sort(compareDirectoryProjects);
 }
 
-export function directoryFilterLabels(entries: ProjectEntry[]): string[] {
-	const present = new Set(entries.map(projectBrowseCategory));
-	return BROWSE_CATEGORIES.filter((label) => present.has(label));
+export function directoryFilterLabels(_entries: ProjectEntry[]): string[] {
+	return [...BROWSE_CATEGORIES];
 }
 
 export function isBrowseCategory(value: string): value is BrowseCategory {

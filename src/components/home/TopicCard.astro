@@ -3,7 +3,7 @@ interface Props {
 	title: string;
 	description: string;
 	href: string;
-	accent: 'teal' | 'coral' | 'yellow' | 'blue' | 'sage';
+	accent: 'teal' | 'coral' | 'yellow' | 'blue' | 'sage' | 'lavender';
 	ariaLabel: string;
 }
 
@@ -15,6 +15,8 @@ const accentClasses = {
 	yellow: 'border-yellow/25 bg-yellow-soft hover:border-yellow/40 hover:bg-yellow-soft/90',
 	blue: 'border-blue/20 bg-blue-soft hover:border-blue/35 hover:bg-blue-soft/90',
 	sage: 'border-sage/25 bg-sage-soft hover:border-sage/40 hover:bg-sage-soft/90',
+	lavender:
+		'border-lavender/25 bg-lavender-soft hover:border-lavender/40 hover:bg-lavender-soft/90',
 } as const;
 
 const dotClasses = {
@@ -23,6 +25,7 @@ const dotClasses = {
 	yellow: 'bg-yellow',
 	blue: 'bg-blue',
 	sage: 'bg-sage',
+	lavender: 'bg-lavender',
 } as const;
 ---
 

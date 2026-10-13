@@ -79,6 +79,13 @@ const topics = [
 		ariaLabel: 'Browse Financial Literacy projects',
 		accent: 'coral' as const,
 	},
+	{
+		title: 'Neurodiversity & Accessibility',
+		description: 'Communication tools, visual routines, and creative supports for different needs.',
+		href: categoryProjectsHref('Neurodiversity & Accessibility'),
+		ariaLabel: 'Browse Neurodiversity and Accessibility projects',
+		accent: 'lavender' as const,
+	},
 ];
 ---
 
@@ -93,16 +100,20 @@ const topics = [
 		<div class="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-8 lg:py-20 xl:gap-16">
 			<div class="min-w-0">
 				<p class="text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:text-sm">
-					COMMUNITY-CREATED LEARNING TOOLS
+					COMMUNITY-CREATED PROJECTS FOR KIDS & FAMILIES
 				</p>
 				<h1 class="mt-4 max-w-xl text-[1.875rem] font-bold leading-[1.14] tracking-tight text-ink sm:max-w-none sm:text-[2.75rem] sm:leading-[1.1] lg:text-[3.125rem] lg:leading-[1.08]">
 					See what parents, teachers, and makers are building for kids.
 				</h1>
 				<p class="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-[1.0625rem] sm:leading-relaxed lg:text-lg">
-					Parents, teachers, and makers are building some really cool learning tools for kids,
-					especially with AI making it easier to create things. I started Vibe Parenting to bring
-					these projects together. The idea is simple: let's share what we're building, learn from
-					each other, and help more kids along the way.
+					Parents, teachers, and makers are building some really cool things for kids—from learning
+					games and creative tools to apps that support different learning needs and everyday
+					routines. And with AI making it easier to build, more people are bringing their ideas to
+					life.
+				</p>
+				<p class="mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-[1.0625rem] sm:leading-relaxed lg:text-lg">
+					I started Vibe Parenting to bring these projects together. The idea is simple: let's share
+					what we're building, learn from each other, and help more kids along the way.
 				</p>
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
 					<a
@@ -137,15 +148,16 @@ const topics = [
 		<div class="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
 			<div class="max-w-2xl">
 				<h2 id="topics-heading" class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-					What are your kids into?
+					Explore projects for learning, play, and everyday life.
 				</h2>
 				<p class="mt-3 text-base leading-relaxed text-muted sm:text-lg">
-					Math games, science experiments, coding projects, and a few things that are just hard to
-					categorize.
+					From math games and science experiments to communication tools, visual routines, and
+					creative projects. Discover what the community is building for kids with different
+					interests, abilities, and needs.
 				</p>
 			</div>
 
-			<ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
+			<ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
 				{
 					topics.map((topic) => (
 						<li class="min-w-0">
