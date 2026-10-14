@@ -43,5 +43,10 @@ const openGraphDescription = ogDescription ?? description;
 		</main>
 		<SiteFooter />
 		<AnalyticsConsent />
+		<script>
+			import { initAnalyticsEngagementTracking } from '../scripts/init-analytics-events.ts';
+
+			initAnalyticsEngagementTracking();
+		</script>
 	</body>
 </html>

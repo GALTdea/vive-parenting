@@ -3,6 +3,7 @@ import ExternalLink from '../ExternalLink.astro';
 import InfoPanel from '../project/InfoPanel.astro';
 import ProjectHero from '../project/ProjectHero.astro';
 import type { ProjectEntry } from '../../lib/projects';
+import { GA_EVENT_CREATOR_LINK_CLICK } from '../../lib/analytics-events.ts';
 import {
 	parentInfoWithoutPracticalDuplicates,
 	projectCreatorBlock,
@@ -35,6 +36,7 @@ const showParentSidebar =
 	<ProjectHero
 		category={data.category ?? data.learningAreas[0]}
 		name={data.title}
+		projectSlug={project.id}
 		shortDescription={data.summary}
 		ageRange={data.ageRange ?? 'Not specified'}
 		projectType={data.projectType}
@@ -137,6 +139,9 @@ const showParentSidebar =
 								<p class="mt-4">
 									<ExternalLink
 										href={creator.profileUrl}
+										data-ga-event={GA_EVENT_CREATOR_LINK_CLICK}
+										data-ga-project-slug={project.id}
+										data-ga-project-name={data.title}
 										class="text-sm font-semibold text-accent underline-offset-4 hover:underline"
 									>
 										{creator.profileLabel}

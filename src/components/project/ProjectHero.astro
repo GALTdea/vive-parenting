@@ -1,10 +1,12 @@
 ---
 import ExternalLink from '../ExternalLink.astro';
 import ProjectMedia from './ProjectMedia.astro';
+import { GA_EVENT_PROJECT_TRY_CLICK } from '../../lib/analytics-events.ts';
 
 interface Props {
 	category: string;
 	name: string;
+	projectSlug: string;
 	shortDescription: string;
 	ageRange: string;
 	projectType: string;
@@ -20,6 +22,7 @@ interface Props {
 const {
 	category,
 	name,
+	projectSlug,
 	shortDescription,
 	ageRange,
 	projectType,
@@ -71,6 +74,9 @@ const {
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
 					<ExternalLink
 						href={tryUrl}
+						data-ga-event={GA_EVENT_PROJECT_TRY_CLICK}
+						data-ga-project-slug={projectSlug}
+						data-ga-project-name={name}
 						class="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover"
 					>
 						Try Project

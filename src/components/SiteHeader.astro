@@ -1,7 +1,13 @@
 ---
+import { GA_EVENT_PROJECT_SUBMIT_CLICK } from '../lib/analytics-events.ts';
+
 const navItems = [
 	{ label: 'Explore Projects', href: '/projects/' },
-	{ label: 'Submit a Project', href: '/submit/' },
+	{
+		label: 'Submit a Project',
+		href: '/submit/',
+		analyticsEvent: GA_EVENT_PROJECT_SUBMIT_CLICK,
+	},
 ];
 ---
 
@@ -20,6 +26,7 @@ const navItems = [
 						<li>
 							<a
 								href={item.href}
+								data-ga-event={'analyticsEvent' in item ? item.analyticsEvent : undefined}
 								class="inline-flex min-h-11 items-center rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-accent/20 hover:bg-accent-soft/60 hover:text-accent"
 							>
 								{item.label}

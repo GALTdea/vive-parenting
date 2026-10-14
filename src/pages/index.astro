@@ -3,6 +3,7 @@ import HeroScreenshotCollage from '../components/home/HeroScreenshotCollage.astr
 import TopicCard from '../components/home/TopicCard.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
+import { GA_EVENT_PROJECT_SUBMIT_CLICK } from '../lib/analytics-events.ts';
 import { isProjectVisible, projectCoverImage } from '../lib/projects';
 import { getCollection } from 'astro:content';
 
@@ -125,6 +126,7 @@ const topics = [
 					</a>
 					<a
 						href="/submit/"
+						data-ga-event={GA_EVENT_PROJECT_SUBMIT_CLICK}
 						class="inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-accent/30 hover:bg-accent-soft/40"
 					>
 						Submit a Project

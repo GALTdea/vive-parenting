@@ -2,9 +2,12 @@
 interface Props {
 	href: string;
 	class?: string;
+	'data-ga-event'?: string;
+	'data-ga-project-slug'?: string;
+	'data-ga-project-name'?: string;
 }
 
-const { href, class: className } = Astro.props;
+const { href, class: className, ...rest } = Astro.props;
 ---
 
 <a
@@ -12,6 +15,7 @@ const { href, class: className } = Astro.props;
 	target="_blank"
 	rel="noopener noreferrer"
 	class:list={[className]}
+	{...rest}
 >
 	<slot />
 </a>

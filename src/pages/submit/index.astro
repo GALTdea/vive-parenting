@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { GA_EVENT_PROJECT_SUBMIT_CLICK } from '../../lib/analytics-events.ts';
 import { projectSubmissionMailto } from '../../lib/site';
 
 const submissionMailto = projectSubmissionMailto();
@@ -77,6 +78,7 @@ const includeItems = [
 					submissionMailto ? (
 						<a
 							href={submissionMailto}
+							data-ga-event={GA_EVENT_PROJECT_SUBMIT_CLICK}
 							class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
 						>
 							Submit Your Project
