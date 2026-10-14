@@ -85,33 +85,41 @@ function teardownGoogleAnalytics(measurementId: string): void {
 	clearGoogleAnalyticsCookies();
 }
 
+function installGtagStub(): void {
+	window.dataLayer = window.dataLayer || [];
+	// Match Google's stub so gtag.js can take over and process the queue.
+	window.gtag = function gtag() {
+		// eslint-disable-next-line prefer-rest-params
+		window.dataLayer?.push(arguments);
+	};
+}
+
 function loadGoogleAnalytics(measurementId: string): void {
-	if (gaInitialized || readConsent() !== ANALYTICS_CONSENT_ACCEPTED) return;
+	if (readConsent() !== ANALYTICS_CONSENT_ACCEPTED) return;
+
+	const existingScript = document.querySelector<HTMLScriptElement>(
+		'script[src*="googletagmanager.com/gtag/js"]',
+	);
+	if (gaInitialized && existingScript) return;
 
 	setGoogleAnalyticsDisabled(measurementId, false);
 	gaInitialized = true;
 
-	window.dataLayer = window.dataLayer || [];
-	window.gtag = function gtag(...args: unknown[]) {
-		if (readConsent() !== ANALYTICS_CONSENT_ACCEPTED) return;
-		window.dataLayer?.push(args);
-	};
+	installGtagStub();
 	window.gtag('js', new Date());
+	window.gtag('config', measurementId, {
+		send_page_view: true,
+		allow_google_signals: false,
+		allow_ad_personalization_signals: false,
+	});
+
+	if (existingScript) return;
 
 	const script = document.createElement('script');
 	script.async = true;
 	script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-	script.onload = () => {
-		if (readConsent() !== ANALYTICS_CONSENT_ACCEPTED) {
-			teardownGoogleAnalytics(measurementId);
-			return;
-		}
-		setGoogleAnalyticsDisabled(measurementId, false);
-		window.gtag?.('config', measurementId, {
-			send_page_view: true,
-			allow_google_signals: false,
-			allow_ad_personalization_signals: false,
-		});
+	script.onerror = () => {
+		gaInitialized = false;
 	};
 	document.head.appendChild(script);
 }
