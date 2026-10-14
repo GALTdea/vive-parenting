@@ -1,3 +1,17 @@
+# Vibe Parenting
+
+Community directory of educational and family-focused projects at [vibeparenting.org](https://vibeparenting.org).
+
+## Analytics
+
+Analytics architecture, tracking events, privacy controls, reporting, and implementation decisions are documented in:
+
+[docs/analytics/README.md](./docs/analytics/README.md)
+
+Before modifying analytics functionality, review this documentation and update it when behavior changes.
+
+---
+
 # Astro Starter Kit: Basics
 
 ```sh

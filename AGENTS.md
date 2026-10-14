@@ -8,6 +8,14 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Analytics
+
+Analytics architecture, tracking events, privacy controls, reporting, and implementation decisions are documented in:
+
+[docs/analytics/README.md](./docs/analytics/README.md)
+
+Before modifying analytics functionality, review this documentation and update it when behavior changes.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
